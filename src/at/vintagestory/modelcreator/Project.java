@@ -427,7 +427,8 @@ public class Project
 
 	
 	public boolean IsElementNameUsed(String name, Element exceptElement) {
-		return IsElementNameUsed(name, rootElements, exceptElement);
+		//return IsElementNameUsed(name, rootElements, exceptElement);
+		return IsElementNameUsedInDirectFamily(name, exceptElement);
 	}
 	
 	public boolean IsAttachmentPointCodeUsed(String code, AttachmentPoint exceptPoint)
@@ -451,6 +452,20 @@ public class Project
 			if (IsElementNameUsed(name, elem.ChildElements, exceptElement)) return true;
 		}
 		
+		return false;
+	}
+	
+	boolean IsElementNameUsedInDirectFamily(String name, Element elem)
+	{
+		if (elem.ParentElement == null)
+		{
+			return false;
+		}
+		for (Element element : elem.ParentElement.ChildElements) {
+			if (element == elem) continue;
+			
+			if (element.getName().equals(name)) return true;
+		}
 		return false;
 	}
 	
